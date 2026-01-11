@@ -4,13 +4,12 @@ import Navbar from "../components/Navbar";
 
 export default function Home() {
   const [from, setFrom] = useState("");
-  const [month, setMonth] = useState("");
-  const [budget, setBudget] = useState("");
+ const [budget, setBudget] = useState("");
   const navigate = useNavigate();
 
   const search = () => {
     navigate("/results", {
-      state: { from, month, budget }
+      state: { from, budget }
     });
   };
 
@@ -24,8 +23,7 @@ export default function Home() {
 
         <input placeholder="From city" onChange={e => setFrom(e.target.value)} />
         <br /><br />
-        <input placeholder="Month" onChange={e => setMonth(e.target.value)} />
-        <br /><br />
+       
         <input placeholder="Budget" onChange={e => setBudget(e.target.value)} />
         <br /><br />
 

@@ -1,0 +1,35 @@
+export const trainHubs = [
+  // South India
+  { name: "Bengaluru", lat: 12.9716, lon: 77.5946 },
+  { name: "Mysuru", lat: 12.2958, lon: 76.6394 },
+  { name: "Coimbatore", lat: 11.0168, lon: 76.9558 },
+  { name: "Mettupalayam", lat: 11.2997, lon: 76.9345 },
+  { name: "Chennai", lat: 13.0827, lon: 80.2707 },
+  { name: "Ernakulam", lat: 9.9312, lon: 76.2673 },
+  { name: "Trivandrum", lat: 8.5241, lon: 76.9366 },
+  { name: "Madurai", lat: 9.9252, lon: 78.1198 },
+
+  // Karnataka / Telangana belt
+  { name: "Hubballi", lat: 15.3647, lon: 75.124 },
+  { name: "Hospet", lat: 15.2696, lon: 76.4002 },
+  { name: "Hyderabad", lat: 17.385, lon: 78.4867 },
+
+  // West India
+  { name: "Mumbai", lat: 19.076, lon: 72.8777 },
+  { name: "Pune", lat: 18.5204, lon: 73.8567 },
+  { name: "Surat", lat: 21.1702, lon: 72.8311 },
+
+  // Central & East
+  { name: "Nagpur", lat: 21.1458, lon: 79.0882 },
+  { name: "Vijayawada", lat: 16.5062, lon: 80.648 },
+  { name: "Visakhapatnam", lat: 17.6868, lon: 83.2185 },
+
+  // North India
+  { name: "Delhi", lat: 28.6139, lon: 77.209 },
+  { name: "Jaipur", lat: 26.9124, lon: 75.7873 },
+  { name: "Chandigarh", lat: 30.7333, lon: 76.7794 },
+  { name: "Dehradun", lat: 30.3165, lon: 78.0322 },
+
+  // North East
+  { name: "Guwahati", lat: 26.1445, lon: 91.7362 },
+];
