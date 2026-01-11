@@ -1,22 +1,19 @@
+import { Link } from "react-router-dom";
+
 export default function Saved() {
   const saved = JSON.parse(localStorage.getItem("savedTrips")) || [];
 
   return (
-    <div style={{ padding: 40 }}>
+    <div className="container">
+      <Link to="/">⬅ Back</Link>
+      <br /><br />
+
       <h2>❤️ Saved Trips</h2>
 
       {saved.length === 0 && <p>No saved trips yet</p>}
 
       {saved.map((d, i) => (
-        <div
-          key={i}
-          style={{
-            border: "1px solid #ccc",
-            borderRadius: 10,
-            padding: 16,
-            marginBottom: 16,
-          }}
-        >
+        <div key={i} className="card">
           <h3>{d.name}</h3>
           <p>🚆 {d.train}</p>
           <p>💰 ₹{d.budget}</p>

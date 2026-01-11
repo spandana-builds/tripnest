@@ -1,7 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
-
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Home() {
   const [from, setFrom] = useState("");
@@ -16,7 +14,7 @@ export default function Home() {
   };
 
   return (
-    <div style={{ padding: "40px" }}>
+    <div className="container">
       <h1>🚆 TripNest</h1>
       <p>Find peaceful, train-friendly trips</p>
 
@@ -28,11 +26,9 @@ export default function Home() {
       <br /><br />
 
       <button onClick={search}>Find Trips</button>
-      <br /><br />
-<Link to="/saved">
-  <button>❤️ My Saved Trips</button>
-</Link>
 
+      <br /><br />
+      <Link to="/saved">❤️ My Saved Trips</Link>
     </div>
   );
 }

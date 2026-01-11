@@ -6,7 +6,7 @@ export default function Results() {
 
   if (!state) {
     return (
-      <div style={{ padding: 40 }}>
+      <div className="container">
         <h2>No search data</h2>
         <Link to="/">Go back</Link>
       </div>
@@ -35,25 +35,16 @@ export default function Results() {
   };
 
   return (
-   
+    <div className="container">
+      <Link to="/">⬅ Back</Link>
+      <br /><br />
 
-    <div style={{ padding: 40 }}>
-       <Link to="/">⬅ Back</Link>
-     <br /><br />
       <h2>Trips from {from}</h2>
 
       {filtered.length === 0 && <p>No trips found 😔</p>}
 
       {filtered.map((d, i) => (
-        <div
-          key={i}
-          style={{
-            border: "1px solid #ccc",
-            borderRadius: 10,
-            padding: 16,
-            marginBottom: 16,
-          }}
-        >
+        <div key={i} className="card">
           <h3>{d.name}</h3>
           <p>🚆 {d.train}</p>
           <p>💰 ₹{d.budget}</p>
