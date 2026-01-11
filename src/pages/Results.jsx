@@ -23,6 +23,17 @@ export default function Results() {
     return cityMatch && monthMatch && budgetMatch;
   });
 
+  const saveTrip = (trip) => {
+    const saved = JSON.parse(localStorage.getItem("savedTrips")) || [];
+    const exists = saved.find(t => t.name === trip.name);
+
+    if (!exists) {
+      saved.push(trip);
+      localStorage.setItem("savedTrips", JSON.stringify(saved));
+      alert("Trip saved ❤️");
+    }
+  };
+
   return (
     <div style={{ padding: 40 }}>
       <h2>Trips from {from}</h2>
@@ -43,6 +54,8 @@ export default function Results() {
           <p>🚆 {d.train}</p>
           <p>💰 ₹{d.budget}</p>
           <p>📝 {d.reason}</p>
+
+          <button onClick={() => saveTrip(d)}>❤️ Save</button>
         </div>
       ))}
     </div>
