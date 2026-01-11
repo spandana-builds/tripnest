@@ -1,5 +1,7 @@
 import { useLocation, Link } from "react-router-dom";
 import { destinations } from "../data/destinations";
+import Navbar from "../components/Navbar";
+
 
 export default function Results() {
   const { state } = useLocation();
@@ -35,7 +37,9 @@ export default function Results() {
   };
 
   return (
+    <> <Navbar />
     <div className="container">
+     
       <Link to="/">⬅ Back</Link>
       <br /><br />
 
@@ -54,5 +58,6 @@ export default function Results() {
         </div>
       ))}
     </div>
+    </>
   );
 }

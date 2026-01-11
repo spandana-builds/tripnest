@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
 export default function Home() {
   const [from, setFrom] = useState("");
@@ -14,21 +15,25 @@ export default function Home() {
   };
 
   return (
-    <div className="container">
-      <h1>🚆 TripNest</h1>
-      <p>Find peaceful, train-friendly trips</p>
+    <>
+      <Navbar />
 
-      <input placeholder="From city" onChange={e => setFrom(e.target.value)} />
-      <br /><br />
-      <input placeholder="Month" onChange={e => setMonth(e.target.value)} />
-      <br /><br />
-      <input placeholder="Budget" onChange={e => setBudget(e.target.value)} />
-      <br /><br />
+      <div className="container">
+        <h1>🚆 TripNest</h1>
+        <p>Find peaceful, train-friendly trips</p>
 
-      <button onClick={search}>Find Trips</button>
+        <input placeholder="From city" onChange={e => setFrom(e.target.value)} />
+        <br /><br />
+        <input placeholder="Month" onChange={e => setMonth(e.target.value)} />
+        <br /><br />
+        <input placeholder="Budget" onChange={e => setBudget(e.target.value)} />
+        <br /><br />
 
-      <br /><br />
-      <Link to="/saved">❤️ My Saved Trips</Link>
-    </div>
+        <button onClick={search}>Find Trips</button>
+
+        <br /><br />
+        <Link to="/saved">❤️ My Saved Trips</Link>
+      </div>
+    </>
   );
 }

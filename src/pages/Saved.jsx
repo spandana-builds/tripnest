@@ -1,10 +1,14 @@
 import { Link } from "react-router-dom";
+import Navbar from "../components/Navbar";
+
 
 export default function Saved() {
   const saved = JSON.parse(localStorage.getItem("savedTrips")) || [];
 
   return (
+    <><Navbar />
     <div className="container">
+      
       <Link to="/">⬅ Back</Link>
       <br /><br />
 
@@ -21,5 +25,6 @@ export default function Saved() {
         </div>
       ))}
     </div>
+    </>
   );
 }
