@@ -1,15 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import "./Home.css";
 
 export default function Home() {
   const [from, setFrom] = useState("");
- const [budget, setBudget] = useState("");
+  const [budget, setBudget] = useState("");
   const navigate = useNavigate();
 
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => (document.body.style.overflow = "auto");
+  }, []);
+
   const search = () => {
+    if (!from || !budget) {
+      alert("Please enter both city and budget");
+      return;
+    }
+
     navigate("/results", {
-      state: { from, budget }
+      state: { from: from.trim(), budget }
     });
   };
 
@@ -17,20 +28,40 @@ export default function Home() {
     <>
       <Navbar />
 
-      <div className="container">
-        <h1>🚆 TripNest</h1>
-        <p>Find peaceful, train-friendly trips</p>
+      <div className="home-hero">
+        <div className="home-left">
+          <h1>Plan peaceful train trips</h1>
+          <p className="subtitle">
+            Discover beautiful destinations you can reach by train — within your budget.
+          </p>
 
-        <input placeholder="From city" onChange={e => setFrom(e.target.value)} />
-        <br /><br />
-       
-        <input placeholder="Budget" onChange={e => setBudget(e.target.value)} />
-        <br /><br />
+          <div className="search-box">
+            <input
+              placeholder="From city (eg. Mysuru, Ooty, Bengaluru)"
+              value={from}
+              onChange={(e) => setFrom(e.target.value)}
+            />
 
-        <button onClick={search}>Find Trips</button>
+            <input
+              placeholder="Budget (₹)"
+              type="number"
+              value={budget}
+              onChange={(e) => setBudget(e.target.value)}
+            />
 
-        <br /><br />
-        <Link to="/saved">❤️ My Saved Trips</Link>
+            <button onClick={search}>🚆 Find Trips</button>
+          </div>
+
+         
+        </div>
+
+        <div className="home-right">
+          <img
+            src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+            alt="Train travel"
+            loading="lazy"
+          />
+        </div>
       </div>
     </>
   );
