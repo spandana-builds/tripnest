@@ -35,7 +35,11 @@ export default function Results() {
   };
 
   return (
+   
+
     <div style={{ padding: 40 }}>
+       <Link to="/">⬅ Back</Link>
+     <br /><br />
       <h2>Trips from {from}</h2>
 
       {filtered.length === 0 && <p>No trips found 😔</p>}
