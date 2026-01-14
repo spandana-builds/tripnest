@@ -9,7 +9,7 @@ export default function Saved() {
       <Navbar />
 
       <div className="container">
-        <Link to="/">⬅ </Link>
+        <Link to="/">⬅ Back </Link>
        
 
         <h2>❤️ Saved Trips</h2>
