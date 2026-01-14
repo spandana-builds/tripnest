@@ -143,6 +143,33 @@ export default function Results() {
         </div>
 
         {loading && <p>Finding destinations…</p>}
+      
+
+{!loading && results.length === 0 && (
+  <div className="no-results">
+    <h3>No trips available 😔</h3>
+    <p>
+      We couldn’t find any destinations from <strong>{from}</strong> within a
+      budget of <strong>₹{budget}</strong>.
+    </p>
+    <p>Try increasing your budget or changing the filter.</p>
+  </div>
+)}
+
+{results.map((p, i) => (
+  <div key={i} className="card">
+    {p.image && <img src={p.image} alt={p.name} />}
+    <div className="card-body">
+      <span className="tag">{p.type}</span>
+      <h3>{p.name}</h3>
+      <p>📍 {p.distance} km away</p>
+      <p>💰 ₹{p.cost}</p>
+      <p>🚆 {p.route}</p>
+      <button onClick={() => saveTrip(p)}>❤️ Save</button>
+    </div>
+  </div>
+))}
+
 
         {results.map((p, i) => (
           <div key={i} className="card">
