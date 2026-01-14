@@ -4,11 +4,46 @@ import Navbar from "../components/Navbar";
 import { indianPlaces } from "../data/places";
 import { trainHubs } from "../data/trainHubs";
 
+/* ✅ City normalizer (single source of truth) */
+function normalizeCity(input) {
+  const city = input.trim().toLowerCase();
+
+  const aliases = {
+    hubli: "hubballi",
+    hubbli: "hubballi",
+    huballi: "hubballi",
+    hubballi: "hubballi",
+
+    mysore: "mysuru",
+    mysuru: "mysuru",
+
+    bangalore: "bengaluru",
+    bengaluru: "bengaluru",
+    banglore: "bengaluru",
+
+    belgaum: "belagavi",
+    belagavi: "belagavi",
+
+    ooty: "ooty",
+    udhagamandalam: "ooty",
+
+    mangalore: "mangaluru",
+    mangaluru: "mangaluru",
+  };
+
+  return aliases[city] || city;
+}
+
 export default function Results() {
   const { state } = useLocation();
   if (!state) return <div>No search data</div>;
 
   const { from, budget } = state;
+
+  const searchCity = normalizeCity(from);
+  const displayCity =
+    searchCity.charAt(0).toUpperCase() + searchCity.slice(1);
+
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
@@ -30,13 +65,15 @@ export default function Results() {
   function getNearestHub(lat, lon) {
     let nearest = trainHubs[0];
     let min = Infinity;
-    trainHubs.forEach(h => {
+
+    trainHubs.forEach((h) => {
       const d = distanceKm(lat, lon, h.lat, h.lon);
       if (d < min) {
         min = d;
         nearest = h;
       }
     });
+
     return nearest.name;
   }
 
@@ -44,16 +81,9 @@ export default function Results() {
     async function run() {
       setLoading(true);
 
-      const cityAliases = {
-        mysore: "mysuru",
-        bengaluru: "bengaluru",
-        bangalore: "bengaluru",
-        ooty: "ooty"
-      };
-
-      const searchCity = cityAliases[from.toLowerCase()] || from.toLowerCase();
-
       let city;
+
+      /* 🔹 Try GeoDB first */
       try {
         const res = await fetch(
           `https://wft-geo-db.p.rapidapi.com/v1/geo/cities?namePrefix=${searchCity}&countryIds=IN&limit=1`,
@@ -68,9 +98,16 @@ export default function Results() {
         city = data.data?.[0];
       } catch {}
 
+      /* 🔹 Fallback to local DB */
       if (!city) {
-        const local = indianPlaces.find(p => p.name.toLowerCase() === searchCity);
-        if (!local) return setLoading(false);
+        const local = indianPlaces.find(
+          (p) => p.name.toLowerCase() === searchCity
+        );
+        if (!local) {
+          setResults([]);
+          setLoading(false);
+          return;
+        }
         city = { latitude: local.lat, longitude: local.lon };
       }
 
@@ -79,7 +116,7 @@ export default function Results() {
       const srcHub = getNearestHub(srcLat, srcLon);
 
       const enriched = await Promise.all(
-        indianPlaces.map(async p => {
+        indianPlaces.map(async (p) => {
           if (p.name.toLowerCase() === searchCity) return null;
 
           const km = distanceKm(srcLat, srcLon, p.lat, p.lon);
@@ -88,8 +125,8 @@ export default function Results() {
 
           const route =
             srcHub === destHub
-              ? `${from} → ${p.name}`
-              : `${from} → ${srcHub} → ${destHub} → ${p.name}`;
+              ? `${displayCity} → ${p.name}`
+              : `${displayCity} → ${srcHub} → ${destHub} → ${p.name}`;
 
           let image = "";
           try {
@@ -97,35 +134,42 @@ export default function Results() {
               `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(
                 p.name
               )}`
-            ).then(r => r.json());
+            ).then((r) => r.json());
             image = wiki?.thumbnail?.source || "";
           } catch {}
 
-          return { ...p, distance: Math.round(km), cost, route, image };
+          return {
+            ...p,
+            distance: Math.round(km),
+            cost,
+            route,
+            image,
+          };
         })
       );
 
       const final = enriched
-        .filter(Boolean)
-        .filter(p => p.cost <= budget)
-        .filter(p => filter === "all" || p.type === filter)
-        .sort((a, b) => a.cost - b.cost);
+  .filter(Boolean)
+  .filter(p => p.cost <= Number(budget))
+  .filter(p => filter === "all" || p.type === filter)
+  .sort((a, b) => a.cost - b.cost) // cheapest first
+  .sort((a, b) => {
+    if (a.image && !b.image) return -1; // image cards first
+    if (!a.image && b.image) return 1;  // no-image cards last
+    return 0;
+  });
+  setResults(final);
+setLoading(false);
 
-      if (final.length > 0) {
-  final[0].featured = true; // cheapest (already sorted by cost)
-}
 
-setResults(final);
-
-      setLoading(false);
     }
 
     run();
   }, [from, budget, filter]);
 
-  const saveTrip = p => {
+  const saveTrip = (p) => {
     const saved = JSON.parse(localStorage.getItem("savedTrips")) || [];
-    if (!saved.find(x => x.name === p.name)) {
+    if (!saved.find((x) => x.name === p.name)) {
       saved.push(p);
       localStorage.setItem("savedTrips", JSON.stringify(saved));
       alert("Saved ❤️");
@@ -135,12 +179,14 @@ setResults(final);
   return (
     <>
       <Navbar />
+
       <div className="container">
-        <Link to="/">⬅ </Link>
-        <h2>Destinations you can reach from {from}</h2>
+        <Link to="/">⬅ Back</Link>
+
+        <h2>Destinations you can reach from {displayCity}</h2>
 
         <div className="filters">
-          {["all", "hill", "beach", "temple", "wildlife", "heritage"].map(f => (
+          {["all", "hill", "beach", "temple", "wildlife", "heritage"].map((f) => (
             <button key={f} onClick={() => setFilter(f)}>
               {f}
             </button>
@@ -148,40 +194,36 @@ setResults(final);
         </div>
 
         {loading && <p>Finding destinations…</p>}
-      
 
-{!loading && results.length === 0 && (
-  <div className="no-results">
-    <h3>No trips available 😔</h3>
-    <p>
-      We couldn’t find any destinations from <strong>{from}</strong> within a
-      budget of <strong>₹{budget}</strong>.
-    </p>
-    <p>Try increasing your budget or changing the filter.</p>
-  </div>
-)}
-
-
-
+       
         <div className="cards-grid">
-  {results.map((p, i) => (
-    <div key={i} className="card">
-     
+          {results.map((p, i) => (
+            <div key={i} className="card">
+              {p.image && <img src={p.image} alt={p.name} />}
 
-      {p.image && <img src={p.image} alt={p.name} />}
-      <div className="card-body">
-        <span className="tag">{p.type}</span>
-        <h3>{p.name}</h3>
-        <p>📍 {p.distance} km away</p>
-        <p>💰 ₹{p.cost}</p>
-        <p>🚆 {p.route}</p>
-        <button onClick={() => saveTrip(p)}>❤️ Save</button>
-      </div>
-    </div>
-  ))}
-</div>
+              <div className="card-body">
+                <span className="tag">{p.type}</span>
+                <h3>{p.name}</h3>
+                <p>📍 {p.distance} km away</p>
+                <p>💰 ₹{p.cost}</p>
+                <p>🚆 {p.route}</p>
+                <button onClick={() => saveTrip(p)}>❤️ Save</button>
+              </div>
+            </div>
+          ))}
+        </div>
+         {!loading && results.length === 0 && (
+          <div className="no-results">
+            <h3>No trips available 😔</h3>
+            <p>
+              We couldn’t find any destinations from{" "}
+              <strong>{displayCity}</strong> within a budget of{" "}
+              <strong>₹{budget}</strong>.
+            </p>
+            <p>Try increasing your budget or changing the filter.</p>
+          </div>
+        )}
 
-        
       </div>
     </>
   );
