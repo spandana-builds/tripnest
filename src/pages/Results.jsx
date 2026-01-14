@@ -111,7 +111,12 @@ export default function Results() {
         .filter(p => filter === "all" || p.type === filter)
         .sort((a, b) => a.cost - b.cost);
 
-      setResults(final);
+      if (final.length > 0) {
+  final[0].featured = true; // cheapest (already sorted by cost)
+}
+
+setResults(final);
+
       setLoading(false);
     }
 
@@ -131,7 +136,7 @@ export default function Results() {
     <>
       <Navbar />
       <div className="container">
-        <Link to="/">⬅ Back</Link>
+        <Link to="/">⬅ </Link>
         <h2>Destinations you can reach from {from}</h2>
 
         <div className="filters">
@@ -156,34 +161,27 @@ export default function Results() {
   </div>
 )}
 
-{results.map((p, i) => (
-  <div key={i} className="card">
-    {p.image && <img src={p.image} alt={p.name} />}
-    <div className="card-body">
-      <span className="tag">{p.type}</span>
-      <h3>{p.name}</h3>
-      <p>📍 {p.distance} km away</p>
-      <p>💰 ₹{p.cost}</p>
-      <p>🚆 {p.route}</p>
-      <button onClick={() => saveTrip(p)}>❤️ Save</button>
+
+
+        <div className="cards-grid">
+  {results.map((p, i) => (
+    <div key={i} className="card">
+     
+
+      {p.image && <img src={p.image} alt={p.name} />}
+      <div className="card-body">
+        <span className="tag">{p.type}</span>
+        <h3>{p.name}</h3>
+        <p>📍 {p.distance} km away</p>
+        <p>💰 ₹{p.cost}</p>
+        <p>🚆 {p.route}</p>
+        <button onClick={() => saveTrip(p)}>❤️ Save</button>
+      </div>
     </div>
-  </div>
-))}
+  ))}
+</div>
 
-
-        {results.map((p, i) => (
-          <div key={i} className="card">
-            {p.image && <img src={p.image} alt={p.name} />}
-            <div className="card-body">
-              <span className="tag">{p.type}</span>
-              <h3>{p.name}</h3>
-              <p>📍 {p.distance} km away</p>
-              <p>💰 ₹{p.cost}</p>
-              <p>🚆 {p.route}</p>
-              <button onClick={() => saveTrip(p)}>❤️ Save</button>
-            </div>
-          </div>
-        ))}
+        
       </div>
     </>
   );

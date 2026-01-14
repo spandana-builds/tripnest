@@ -38,7 +38,7 @@ export default function Home() {
 
           <div className="search-box">
             <input
-              placeholder="From city (eg. Mysuru, Ooty, Bengaluru)"
+              placeholder="From city (eg. Mysuru, Mangalore, Bengaluru)"
               value={from}
               onChange={(e) => setFrom(e.target.value)}
             />

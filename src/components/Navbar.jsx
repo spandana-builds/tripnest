@@ -6,7 +6,7 @@ export default function Navbar() {
       <h2>🚆 TripNest</h2>
       <div className="nav-links">
         <Link to="/">Home</Link>
-        <Link to="/saved">Saved Trips</Link>
+        <Link to="/saved">SavedTrips</Link>
       </div>
     </div>
   );

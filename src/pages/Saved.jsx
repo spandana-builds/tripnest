@@ -9,39 +9,35 @@ export default function Saved() {
       <Navbar />
 
       <div className="container">
-        <Link to="/">⬅ Back</Link>
-        <br /><br />
+        <Link to="/">⬅ </Link>
+       
 
         <h2>❤️ Saved Trips</h2>
 
-        {saved.length === 0 && <p>No saved trips yet</p>}
-
-        {saved.map((p, i) => (
-          <div key={i} className="card">
-            
-            {p.image && (
-              <img
-                src={p.image}
-                alt={p.name}
-                style={{
-                  width: "100%",
-                  height: "220px",
-                  objectFit: "cover",
-                  borderRadius: "14px",
-                  marginBottom: "12px"
-                }}
-              />
-            )}
-
-            <h3>{p.name}</h3>
-
-            <p>🏷 {p.type}</p>
-            <p>📍 {p.distance} km away</p>
-            <p>💰 Estimated cost: ₹{p.cost}</p>
-            <p>🚆 {p.route}</p>
-
+        {saved.length === 0 && (
+          <div className="no-results">
+            <h3>No saved trips yet</h3>
+            <p>Save destinations to see them here.</p>
           </div>
-        ))}
+        )}
+
+        {saved.length > 0 && (
+          <div className="cards-grid">
+            {saved.map((p, i) => (
+              <div key={i} className="card">
+                {p.image && <img src={p.image} alt={p.name} />}
+
+                <div className="card-body">
+                  <span className="tag">{p.type}</span>
+                  <h3>{p.name}</h3>
+                  <p>📍 {p.distance} km away</p>
+                  <p>💰 ₹{p.cost}</p>
+                  <p>🚆 {p.route}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </>
   );
