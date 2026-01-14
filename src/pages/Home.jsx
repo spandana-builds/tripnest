@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import "./Home.css";
+import heroImage from "../assets/train_journey.jpg";
 
 export default function Home() {
   const [from, setFrom] = useState("");
@@ -57,7 +58,7 @@ export default function Home() {
 
         <div className="home-right">
           <img
-            src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+            src={heroImage}
             alt="Train travel"
             loading="lazy"
           />
