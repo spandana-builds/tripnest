@@ -3,7 +3,7 @@
 TripNest is a web application that helps users discover peaceful, train-friendly travel destinations within a given budget.  
 It focuses on nearby places that are realistically reachable by train and presents them in a clean, card-based UI.
 
----
+
 
 ## ✨ Features
 
@@ -22,7 +22,6 @@ It focuses on nearby places that are realistically reachable by train and presen
 - **Saved Trips** stored using localStorage
 - Graceful handling of missing data & empty results
 
----
 
 ## 📸 Project Screenshots
 
@@ -43,7 +42,7 @@ It focuses on nearby places that are realistically reachable by train and presen
 ### No Results State
 ![No Results](screenshots/no-results.png)
 
----
+
 
 ## 🛠 Tech Stack
 
@@ -54,7 +53,7 @@ It focuses on nearby places that are realistically reachable by train and presen
 - **Wikipedia REST API**
 - **LocalStorage**
 
----
+
 
 ## 🧠 Key Concepts Used
 
@@ -65,5 +64,5 @@ It focuses on nearby places that are realistically reachable by train and presen
 - Clean component structure
 - User-focused UI/UX design
 
----
+
 
