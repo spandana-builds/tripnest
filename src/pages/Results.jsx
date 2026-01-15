@@ -123,10 +123,14 @@ export default function Results() {
           const cost = Math.round(km * 2 + 600);
           const destHub = getNearestHub(p.lat, p.lon);
 
+
           const route =
             srcHub === destHub
               ? `${displayCity} → ${p.name}`
+              : srcHub === displayCity
+              ? `${displayCity} → ${destHub} → ${p.name}`
               : `${displayCity} → ${srcHub} → ${destHub} → ${p.name}`;
+
 
           let image = "";
           try {
