@@ -28,7 +28,7 @@ It focuses on nearby places that are realistically reachable by train and presen
 > Place screenshots inside a `screenshots/` folder in the project root.
 
 ### Home Page
-![Home Page](screenshots/home.png)
+![Home Page](screenshots/home.png.png)
 
 ### Search Results (Grid View)
 ![Results](screenshots/results.png)
