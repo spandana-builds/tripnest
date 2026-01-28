@@ -9,7 +9,7 @@ It focuses on nearby places that are realistically reachable by train and presen
 
 - Search destinations by **source city** and **budget**
 - Smart **city name normalization** (Hubli / Hubballi / Hubbli, etc.)
-- Distance-based **cost estimation**
+- Distance-based **cost estimation**  
 - Realistic **train hub routing**
 - Filter destinations by type:
   - Hill
