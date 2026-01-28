@@ -47,7 +47,7 @@ It focuses on nearby places that are realistically reachable by train and presen
 ## 🛠 Tech Stack
 
 - **React + Vite**
-- **React Router**
+- **React Router** 
 - **Custom CSS**
 - **GeoDB Cities API** (RapidAPI)
 - **Wikipedia REST API**
