@@ -60,7 +60,7 @@ It focuses on nearby places that are realistically reachable by train and presen
 - Input normalization & alias handling
 - API + local database fallback
 - Distance calculation using Haversine formula
-- Data sorting & filtering
+- Data sorting & filtering 
 - Clean component structure
 - User-focused UI/UX design
 
